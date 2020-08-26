@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cotización</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<meta charset="UTF-8">
+</head>
+<body>
+	<center>
+		<p>
+			Seleccione la moneda para ver la cotización
+		</p>
+		<p>
+			<span id="texto"></span>
+		</p>
+		<p>
+			<input type="radio" id="Dolar" name="moneda" value="dolar">
+			<label for="male">Dolar</label><br>
+			<input type="radio" id="Euro" name="moneda" value="euro">
+			<label for="female">Euro</label><br>
+			<input type="radio" id="Real" name="moneda" value="real">
+			<label for="other">Real</label>
+		</p>
+	</center>
+</body>
+<script type="text/javascript">
+	var myVar;
+	function verApi( moneda ){
+		$.ajax({
+			url: "https://webapplication120200825221744.azurewebsites.net/api/cotizacion/"+moneda,
+			xhrFields: {
+				withCredentials: false
+			},
+			beforeSend: function( xhr ) {
+				xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+			}
+		})
+			.done(function( data ) {
+				clearInterval(myVar);
+				var asd = new Date;
+				var hora = asd.getHours().toString().padStart(2,"0")+":"+asd.getMinutes().toString().padStart(2,"0")+":"+asd.getSeconds().toString().padStart(2,"0");
+				var obj = jQuery.parseJSON(data);
+				var label = "Cotizacion del " + moneda + " " + obj.precio + ", Cotización tomada a las "+hora;
+				$("#texto").html("<label>"+label+"</label>");
+				
+				myVar = setInterval(function(){ verApi($('input:radio[name=moneda]:checked').val()); }, 5000);
+		  });
+	}
+
+	$( document ).ready(function() {
+		
+		$('input[type=radio][name=moneda]').change(function() {
+			var label = "Cotizacion del " + $(this).attr("value"); 
+			$("#texto").html("<label>"+label+"</label>");
+			console.log($(this).attr("value"));
+			verApi($(this).attr("value"));
+
+		});
+
+		$('#Dolar').prop('checked',true).change();
+
+		myVar = setInterval(function(){ verApi($('input:radio[name=moneda]:checked').val()); }, 5000);
+	});
+</script>
+</html>
