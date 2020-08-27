@@ -4,24 +4,37 @@
 	<title>Cotización</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<meta charset="UTF-8">
+  	<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  	<style type="text/css">
+  		body {}
+  		p input {margin-left: 350px;}
+  		p label {}
+  		.centro {text-align: center;}
+  		.desc{ margin-left: 150px; }
+  		.lbl{}
+  		fieldset{ background: rgb(248, 248, 255) none repeat scroll 0% 0%;}
+  	</style>
 </head>
 <body>
-	<center>
-		<p>
-			Seleccione la moneda para ver la cotización
-		</p>
-		<p>
-			<span id="texto"></span>
-		</p>
-		<p>
-			<input type="radio" id="Dolar" name="moneda" value="dolar">
-			<label for="male">Dolar</label><br>
-			<input type="radio" id="Euro" name="moneda" value="euro">
-			<label for="female">Euro</label><br>
-			<input type="radio" id="Real" name="moneda" value="real">
-			<label for="other">Real</label>
-		</p>
-	</center>
+	<div class="pure-g">
+		<div class="pure-u-1-5"></div>
+		<div class="pure-u-3-5">
+			<p class="centro">Consulta de cotización - Cambio.Today </p>
+			<fieldset>
+				<p class="centro">Seleccione la moneda para ver la cotización</p>
+				<p>
+					<input type="radio" id="Dolar" name="moneda" value="dolar"> <label class="lbl" for="dolar">Dolar</label><br>
+					<input type="radio" id="Euro" name="moneda" value="euro"> <label class="lbl" for="euro">Euro</label><br>
+					<input type="radio" id="Real" name="moneda" value="real"> <label class="lbl" for="Real">Real</label>
+				</p>
+				<p>
+					<span class="centro desc" id="texto"></span>
+				</p>
+			</fieldset>
+		</div>
+		<div class="pure-u-1-5"></div>
+	</div>
+	
 </body>
 <script type="text/javascript">
 	var myVar;
@@ -50,7 +63,7 @@
 	$( document ).ready(function() {
 		
 		$('input[type=radio][name=moneda]').change(function() {
-			var label = "Cotizacion del " + $(this).attr("value"); 
+			var label = "Cotización del " + $(this).attr("value"); 
 			$("#texto").html("<label>"+label+"</label>");
 			console.log($(this).attr("value"));
 			verApi($(this).attr("value"));
